@@ -55,16 +55,15 @@ void setup()
 {
   GSM.begin(9600);
   Serial.begin(9600);
-  const byte road[6] = "000003";
-  char stat;
+  const byte road[6] = "address";
+  char stat; // data to be sent
   stat = 'L';
-  char main[] = "AT+HTTPPARA=\"URL\",\"http://sunshinealways7062.000webhostapp.com/db3.php?roadno=";
+  char main[] = "AT+HTTPPARA=\"URL\",\"enter url here";
   
-  sendGSM("AT+SAPBR=3,1,\"APN\",\"airtelgprs.com\"");  
+  sendGSM("AT+SAPBR=3,1,\"APN\",\"enter ur APN of simcard here\"");  
   sendGSM("AT+SAPBR=1,1",3000);
   sendGSM("AT+HTTPINIT");  
   sendGSM("AT+HTTPPARA=\"CID\",1");
-  //sendGSM("AT+HTTPPARA=\"URL\",\"http://sunshinealways7062.000webhostapp.com/db3.php?roadno=000002&status=M\"");
   sendGSM1(main,road,stat);
   sendGSM("AT+HTTPACTION=0",2000);
 }
