@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Simple Polylines</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+
+      // This example creates a 2-pixel-wide red polyline showing the path of William
+      // Kingsford Smith's first trans-Pacific flight between Oakland, CA, and
+      // Brisbane, Australia.
+           $(document).ready(function()
+            {
+                $("button").click(function()
+                {
+                $.post("test_new.php",
+                    {
+                      "city": "Duckb"
+                    },
+                    function(data,status)
+                    {
+                        //alert("Data: " + data + "\nStatus: " + status);
+                        console.log(data);
+                        initMap(data);
+
+                    });
+                });
+            });
+
+            function initMap(data) 
+            {
+              console.log(data[1][0][0].length);
+              for (var i=0;i<30;i++)
+              {
+                var drawing=[];
+                for(var j=0;j<data[1][i].length;j++)
+                {
+                  drawing.push({lat: data[1][i][j][0], lng: data[1][i][j][1]});
+                  var flightPath = new google.maps.Polyline(
+                  {
+                    path: drawing,
+                    geodesic: true,
+                    strokeColor: data[0][i],
+                    strokeOpacity: 5.0,
+                    strokeWeight: 2
+                  });
+
+                  flightPath.setMap(map);
+                }
+              }
+            }
+
+            function something(data){
+               map = new google.maps.Map(document.getElementById('map'), 
+              {
+                zoom: 15,
+                center: {lat: 12.9352367, lng: 77.5363268},
+                mapTypeId: 'roadmap'
+              });
+              console.log("map loaded!");
+            }
+
+    </script>
+    
+  </head>
+  <body>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAeaymmNO2AH5142vcOP986FpQBUegge8&callback=something">
+    </script>
+              <button>Send an HTTP POST request to a page and get the result back</button>
+
+    <div id="map"></div>
+  </body>
+</html>
